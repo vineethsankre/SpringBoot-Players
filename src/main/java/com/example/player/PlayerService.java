@@ -14,6 +14,7 @@ import com.example.player.PlayerRepository;
 public class PlayerService implements PlayerRepository {
 
     private static HashMap<Integer, Player> team = new HashMap<>();
+    int uniquePlayerId = 12;
 
     public PlayerService() {
         team.put(1, new Player(1, "Alexander", 5, "All-rounder"));
@@ -37,9 +38,21 @@ public class PlayerService implements PlayerRepository {
     }
 
     @Override
-    public Player getPlayerById(int playerId){
+    public Player getPlayerById(int playerId) {
         Player player = team.get(playerId);
+        if (player == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
         return player;
+    }
+
+    @Override
+    public Player addPlayer(Player player){
+        player.setPlayerId(uniquePlayerId);
+        team.put(uniquePlayerId, player);
+        uniquePlayerId += 1;
+        return player;
+
     }
 
 }
