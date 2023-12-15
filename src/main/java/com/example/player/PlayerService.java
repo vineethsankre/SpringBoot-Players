@@ -47,11 +47,32 @@ public class PlayerService implements PlayerRepository {
     }
 
     @Override
-    public Player addPlayer(Player player){
+    public Player addPlayer(Player player) {
         player.setPlayerId(uniquePlayerId);
         team.put(uniquePlayerId, player);
         uniquePlayerId += 1;
         return player;
+
+    }
+
+    @Override
+    public Player updatePlayer(int playerId, Player player) {
+        Player existingPlayer = team.get(playerId);
+        if (existingPlayer == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        if (player.getPlayerName() != null) {
+            existingPlayer.setPlayerName(player.getPlayerName());
+        }
+
+        if (player.getRole() != null) {
+            existingPlayer.setRole(player.getRole());
+        }
+        if (player.getJerseyNumber() != null) {
+            existingPlayer.setJerseyNumber(player.getJerseyNumber());
+        }
+
+        return existingPlayer;
 
     }
 
