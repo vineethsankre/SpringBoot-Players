@@ -3,6 +3,9 @@ package com.example.player;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 import java.util.*;
+
+import javax.validation.OverridesAttribute;
+
 import com.example.player.Player;
 import com.example.player.PlayerRepository;
 
@@ -31,6 +34,12 @@ public class PlayerService implements PlayerRepository {
         Collection<Player> playersCollection = team.values();
         ArrayList<Player> players = new ArrayList<>(playersCollection);
         return players;
+    }
+
+    @Override
+    public Player getPlayerById(int playerId){
+        Player player = team.get(playerId);
+        return player;
     }
 
 }
